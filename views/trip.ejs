@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <title>Food Near Me</title>
+        <!-- CSS  -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css" media="screen,projection"/>
+        <link href="css/trip.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    </head>
+    
+    <body>
+        <nav class="light-blue lighten-1" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" href="#" class="brand-logo">Food Near Me</a>
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <% if (user.local.email) { %>
+                        Hi,<span id="userCurrent"><%= user.local.first_name %></span>
+                        <% } %>
+                    </li>
+                    <li>
+                        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+                    </li>
+                </ul>
+                
+                <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            </div>
+        </nav>
+        
+        <div align="center" id="modal_citySelect" class="modal">
+            <h5>Select a City</h5>
+            <div id="cities"></div>
+        </div>
+        <div class="section no-pad-bot" id="index-banner">
+            <div class="container">
+                <br><br>
+                <h1 class="header center orange-text">Hangout planner</h1>
+                <div class="row center">
+                    <h5 class="header col s12 light">Plan a hangout with your friends and family by selecting multiple restaurants and places!</h5>
+                </div>
+                <div class="row center">
+                    <a href="#modal_citySelect" id="selector" class="modal-trigger btn btn-large waves-effect waves-light orange"><i class="material-icons left">add_location</i>Select a City</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a id="saveList" class="btn btn-large waves-effect waves-light orange"><i class="large material-icons left">done</i>Save your Hangout</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#modal_citySelect" id="selector" class="modal-trigger btn btn-large waves-effect waves-light orange"><i class="material-icons left">navigation</i>Check your Hangouts</a>
+                </div>
+                <br><br>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="section">
+                <ul data-bind='foreach: searchResults' id="findList" class="collection">
+                    <div data-bind="attr: {class: $data.name}">
+                        <div data-bind="attr:{class: $data.id}">
+                            <li class="collection-item avatar">
+                                <img data-bind="attr:{src: $data.image_url}" alt="" class="circle">
+                                <span data-bind="text: $data.name" class="title placeName"></span>
+                                <p data-bind="text: $data.location.display_address[0]"></p>
+                                <p data-bind="text: $data.location.display_address[1]"></p>
+                                <h6 data-bind="text: $data.display_phone"></h6>
+                                <a data-bind="click: addRestToList.bind($data, $data.name)" class="waves-effect waves-light btn-large orange"><i class="material-icons right">speaker_notes</i>Add to Food Hop!</a>
+                                
+                                <!-- Modal Structure -->
+                                <div data-bind="attr: {id: $data.newID}" class="modal bottom-sheet">
+                                    <div class="modal-content">
+                                        <h4 data-bind="text: $data.name">Reviews</h4>
+                                        <ul class="collection">
+                                            <!-- Reviews dynamically generated in this collection by get '/review' request in app.js -->
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <a class="secondary-content"><img data-bind="attr:{src: $data.rating_img_url_large}" alt=""></a>
+                            </li>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+            <br><br>
+            <div class="section"></div>
+        </div>
+        
+        <footer class="page-footer orange">
+            
+            <div class="footer-copyright">
+                <div class="container">
+                    Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">GS7</a>
+                </div>
+            </div>
+        </footer>
+        
+        <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+        <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
+        <script src="js/init.js"></script>
+        <script src="js/trip.js"></script>
+    </body>
+</html>
